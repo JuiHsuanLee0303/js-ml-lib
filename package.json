@@ -1,0 +1,31 @@
+{
+  "name": "js-ml-lib",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsup src/index.ts --dts --format cjs,esm"
+  },
+  "keywords": [
+    "machine-learning",
+    "javascript",
+    "typescript",
+    "scikit-learn",
+    "data-science"
+  ],
+  "author": "JuiHsuanLee0303",
+  "license": "MIT",
+  "description": "A simple machine learning library in JavaScript/TypeScript",
+  "devDependencies": {
+    "@types/jest": "^29.5.14",
+    "@types/node": "^22.9.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.5",
+    "ts-node": "^10.9.2",
+    "tsup": "^8.3.5",
+    "typescript": "^5.6.3"
+  },
+  "dependencies": {
+    "mathjs": "^13.2.2"
+  }
+}
