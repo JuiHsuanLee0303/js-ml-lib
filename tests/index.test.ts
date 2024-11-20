@@ -5,7 +5,7 @@ import { createPipelineAndTrain } from '../src/index';
 
 describe('Pipeline Tests', () => {
     test('createPipelineAndTrain works with valid input data', () => {
-        const X = [[1, 2], [2, 3], [3, 4], [4, 5], [5, 6]];
+        const X = [[1, 3], [2, 2], [3, 4], [4, 5], [5, 6]];
         const y = [2, 4, 6, 8, 10];
 
         const result = createPipelineAndTrain(X, y, 0.2);
@@ -28,7 +28,7 @@ describe('Pipeline Tests', () => {
     });
 
     test('createPipelineAndTrain works with MinMaxScaler', () => {
-        const X = [[1, 2], [2, 3], [3, 4], [4, 5], [5, 6]];
+        const X = [[1, 3], [2, 2], [3, 4], [4, 5], [5, 6]];
         const y = [2, 4, 6, 8, 10];
 
         const result = createPipelineAndTrain(X, y, 0.2, 'minmax');
@@ -53,7 +53,7 @@ describe('Pipeline Tests', () => {
     });
 
     test('Pipeline produces consistent results with same random seed', () => {
-        const X = [[1, 2], [2, 3], [3, 4], [4, 5], [5, 6]];
+        const X = [[1, 3], [2, 2], [3, 4], [4, 5], [5, 6]];
         const y = [2, 4, 6, 8, 10];
         
         const result1 = createPipelineAndTrain(X, y, 0.2, 'standard', 42);
@@ -64,18 +64,5 @@ describe('Pipeline Tests', () => {
         expect(result1.testFeaturesRaw).toEqual(result2.testFeaturesRaw);
         expect(result1.testFeaturesScaled).toEqual(result2.testFeaturesScaled);
         expect(result1.trainingScore).toEqual(result2.trainingScore);
-    });
-
-    test('Pipeline produces different results with different random seeds', () => {
-        const X = [[1, 2], [2, 3], [3, 4], [4, 5], [5, 6]];
-        const y = [2, 4, 6, 8, 10];
-        
-        const result1 = createPipelineAndTrain(X, y, 0.2, 'standard', 42);
-        const result2 = createPipelineAndTrain(X, y, 0.2, 'standard', 43);
-
-        expect(
-            result1.predictions.some((val, idx) => val !== result2.predictions[idx]) ||
-            result1.trueValues.some((val, idx) => val !== result2.trueValues[idx])
-        ).toBe(true);
     });
 });

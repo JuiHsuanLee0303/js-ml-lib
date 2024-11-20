@@ -1,4 +1,5 @@
 import * as math from "mathjs";
+import numeric from "numeric";
 import { singularValueDecomposition } from "../utils/SingularValueDecomposition";
 
 export class LinearRegression {
@@ -28,7 +29,8 @@ export class LinearRegression {
     const X_transpose = math.transpose(math.matrix(X));
     const XTX = math.multiply(X_transpose, X);
     const XTy = math.multiply(X_transpose, math.matrix(y.map((val) => [val]))); // Convert y to column vector
-    this.weights = this.solve(XTX, XTy);
+    // this.weights = this.solve(XTX, XTy);
+    this.weights = math.multiply(math.inv(XTX), XTy) as math.Matrix;
   }
 
   /**
@@ -59,6 +61,7 @@ export class LinearRegression {
    */
   private solve(A: math.Matrix, b: math.Matrix): math.Matrix {
     const { U, S, V } = singularValueDecomposition(A);
+    // const { U, S, V } = numeric.svd(A.toArray() as number[][]);
     const S_inv = math.inv(S);
     const V_T = math.transpose(V);
     const X = math.multiply(V_T, math.multiply(S_inv, math.multiply(U, b)));
