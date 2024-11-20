@@ -1,8 +1,8 @@
 import * as math from "mathjs";
 import numeric from "numeric";
-import { singularValueDecomposition } from "../utils/SingularValueDecomposition";
 import { ModelInterface } from "../types";
 import { DataValidationError } from "../exceptions";
+
 /**
  * Linear Regression model implementation using ordinary least squares
  * @class LinearRegression
@@ -19,7 +19,9 @@ export class LinearRegression implements ModelInterface {
    */
   fit(X: number[][], y: number[]): void {
     if (X.length !== y.length) {
-      throw new DataValidationError("Number of samples in X and y must match");
+      throw new DataValidationError(
+        `Number of samples in X(${X.length}) and y(${y.length}) must match`
+      );
     }
     if (X.length === 0) {
       throw new DataValidationError("Empty training data");
@@ -56,21 +58,29 @@ export class LinearRegression implements ModelInterface {
 
     // Check if number of features matches training data
     if (!X.every((row) => row.length === this.weights!.size()[0])) {
-      throw new DataValidationError("Number of features must match training data");
+      throw new DataValidationError(
+        `Number of features(${X[0].length}) must match training data(${
+          this.weights!.size()[0]
+        })`
+      );
     }
 
     return X.map((row) => math.dot(row, this.weights!.toArray() as number[]));
   }
 
   /**
-   * Solve linear system Ax = b
+   * Solve linear system Ax = b using SVD
+   * @param {math.Matrix} A - Coefficient matrix
+   * @param {math.Matrix} b - Target values matrix
+   * @returns {math.Matrix} Solution matrix
    */
   private solve(A: math.Matrix, b: math.Matrix): math.Matrix {
-    // const { U, S, V } = singularValueDecomposition(A);
     const { U, S, V } = numeric.svd(A.toArray() as number[][]);
-    const S_diag = math.matrix(math.zeros(A.size()[0], A.size()[1])) as math.Matrix;
+    const S_diag = math.matrix(
+      math.zeros(A.size()[0], A.size()[1])
+    ) as math.Matrix;
     for (let i = 0; i < S.length; i++) {
-        S_diag.set([i, i], S[i]);
+      S_diag.set([i, i], S[i]);
     }
     const S_end = math.matrix(S_diag);
     const S_inv = math.inv(S_end);
@@ -79,6 +89,12 @@ export class LinearRegression implements ModelInterface {
     return X;
   }
 
+  /**
+   * Calculate the R² score of the model
+   * @param {number[][]} X - Prediction data matrix
+   * @param {number[]} y - Target values
+   * @returns {number} R² score
+   */
   score(X: number[][], y: number[]): number {
     const predictions = this.predict(X);
     const meanY = y.reduce((sum, val) => sum + val, 0) / y.length;

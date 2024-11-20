@@ -5,8 +5,21 @@
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
+    "coverage": "jest --coverage",
+    "coveralls": "jest --coverage && cat coverage/lcov.info | coveralls",
     "build": "tsup src/index.ts --dts --format cjs,esm"
+  },
+  "nyc": {
+    "extends": "@istanbuljs/nyc-config-typescript",
+    "include": [
+      "src/**/*.ts"
+    ],
+    "reporter": [
+      "lcov",
+      "text"
+    ],
+    "all": true
   },
   "keywords": [
     "machine-learning",
@@ -27,10 +40,14 @@
     "url": "https://github.com/JuiHsuanLee0303/js-ml-lib/issues"
   },
   "devDependencies": {
+    "@istanbuljs/nyc-config-typescript": "^1.0.2",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.9.0",
     "@types/numeric": "^1.2.6",
+    "coveralls": "^3.1.1",
     "jest": "^29.7.0",
+    "nyc": "^17.1.0",
+    "source-map-support": "^0.5.21",
     "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
     "tsup": "^8.3.5",

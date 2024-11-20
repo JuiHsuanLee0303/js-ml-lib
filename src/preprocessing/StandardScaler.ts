@@ -7,6 +7,8 @@ export class StandardScaler implements ScalerInterface {
 
   /**
    * Calculate the mean and standard deviation of features
+   * @param {number[][]} X - Input data matrix
+   * @throws {Error} If input array is empty or has inconsistent feature dimensions
    */
   fit(X: number[][]): void {
     if (!X || !X.length || !X[0].length) {
@@ -43,6 +45,8 @@ export class StandardScaler implements ScalerInterface {
 
   /**
    * Standardize data using the calculated mean and standard deviation
+   * @param {number[][]} X - Input data matrix
+   * @returns {number[][]} Standardized data matrix
    */
   transform(X: number[][]): number[][] {
     if (!X || !X.length || !X[0].length) {
@@ -60,6 +64,8 @@ export class StandardScaler implements ScalerInterface {
 
   /**
    * Combine fit and transform operations
+   * @param {number[][]} X - Input data matrix
+   * @returns {number[][]} Standardized data matrix
    */
   fitTransform(X: number[][]): number[][] {
     this.fit(X);
