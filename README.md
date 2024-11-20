@@ -1,4 +1,4 @@
-# js-ml-lib
+<h1 align="center">js-ml-lib</h1>
 
 <p align="center">
   <img src="https://img.shields.io/npm/v/js-ml-lib.svg?style=flat-square" alt="NPM version" />
@@ -12,7 +12,8 @@
 
 ### Key Features
 
-- **Linear Regression Model**: A simple and efficient implementation of the linear regression algorithm for training and prediction.
+- **Models**:
+  - **Linear Regression Model**: A simple and efficient implementation of the linear regression algorithm for training and prediction.
 - **Data Preprocessing**:
   - **Standardization (`StandardScaler`)**: Scales data to have a mean of 0 and a variance of 1.
   - **Normalization (`MinMaxScaler`)**: Scales data to fit within a specified range, such as `[0, 1]`.
@@ -34,7 +35,9 @@ npm install js-ml-lib
 
 ### Usage
 
-#### 1. Linear Regression
+#### Models
+
+##### Linear Regression
 
 The `LinearRegression` class allows you to train a model on a dataset and make predictions. Below is a simple example:
 
@@ -56,7 +59,7 @@ console.log(predictions); // Output: [10, 12]
 
 #### 2. Data Preprocessing
 
-#### **Standardization**
+##### Standardization
 
 Standardize features by scaling them to have a mean of 0 and a variance of 1. This is especially useful when working with algorithms sensitive to feature magnitude.
 
@@ -78,7 +81,7 @@ const X_scaled = scaler.transform(X);
 console.log(X_scaled);
 ```
 
-#### **Normalization**
+##### Normalization
 
 Normalize features to fit within a specified range (default: `[0, 1]`).
 
