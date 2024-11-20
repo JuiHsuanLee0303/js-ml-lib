@@ -1,7 +1,9 @@
 {
   "name": "js-ml-lib",
-  "version": "1.0.0",
-  "main": "index.js",
+  "version": "0.1.0",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsup src/index.ts --dts --format cjs,esm"
@@ -16,6 +18,14 @@
   "author": "JuiHsuanLee0303",
   "license": "MIT",
   "description": "A simple machine learning library in JavaScript/TypeScript",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JuiHsuanLee0303/js-ml-lib.git"
+  },
+  "homepage": "https://github.com/JuiHsuanLee0303/js-ml-lib#readme",
+  "bugs": {
+    "url": "https://github.com/JuiHsuanLee0303/js-ml-lib/issues"
+  },
   "devDependencies": {
     "@types/jest": "^29.5.14",
     "@types/node": "^22.9.0",
@@ -27,6 +37,14 @@
     "typescript": "^5.6.3"
   },
   "dependencies": {
-    "mathjs": "^13.2.2"
+    "mathjs": "^13.2.2",
+    "numeric": "^1.2.6"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
   }
 }

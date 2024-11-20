@@ -1,8 +1,35 @@
 import * as math from "mathjs";
+import { ScalerInterface } from "../types";
 
-export class MinMaxScaler {
+export class MinMaxScaler implements ScalerInterface {
   private min: number[] | null = null;
   private max: number[] | null = null;
+
+  /**
+   * Fit the scaler to the data
+   * @param {number[][]} X - Input data matrix
+   */
+  fit(X: number[][]): void {
+    if (X.length === 0) {
+      throw new Error("Empty input data");
+    }
+
+    const featureCount = X[0].length;
+    if (!X.every((row) => row.length === featureCount)) {
+      throw new Error("Inconsistent number of features");
+    }
+
+    // Calculate min and max for each feature
+    this.min = new Array(featureCount).fill(Infinity);
+    this.max = new Array(featureCount).fill(-Infinity);
+
+    for (let i = 0; i < X.length; i++) {
+      for (let j = 0; j < featureCount; j++) {
+        this.min[j] = math.min(this.min[j], X[i][j]);
+        this.max[j] = math.max(this.max[j], X[i][j]);
+      }
+    }
+  }
 
   /**
    * Fit the scaler to the data and transform it
@@ -58,32 +85,6 @@ export class MinMaxScaler {
         return range === 0
           ? 0
           : math.divide(math.subtract(val, this.min![j]), range);
-      })
-    );
-  }
-
-  /**
-   * Inverse transform scaled data back to original scale
-   * @param X Scaled data matrix
-   * @returns Original scale data matrix
-   */
-  inverseTransform(X: number[][]): number[][] {
-    if (!this.min || !this.max) {
-      throw new Error("Scaler not fitted yet");
-    }
-
-    if (X.length === 0) {
-      throw new Error("Empty input data");
-    }
-
-    if (!X.every((row) => row.length === this.min!.length)) {
-      throw new Error("Number of features must match training data");
-    }
-
-    return X.map((row) =>
-      row.map((val, j) => {
-        const range = math.subtract(this.max![j], this.min![j]);
-        return math.add(math.multiply(val, range), this.min![j]);
       })
     );
   }

@@ -1,6 +1,7 @@
 import * as math from "mathjs";
+import { ScalerInterface } from "../types";
 
-export class StandardScaler {
+export class StandardScaler implements ScalerInterface {
   private mean: number[] = [];
   private std: number[] = [];
 
