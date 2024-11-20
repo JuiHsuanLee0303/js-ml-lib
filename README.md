@@ -1,9 +1,10 @@
 # js-ml-lib
 
-[![NPM version][npm-image]][npm-url]
-
-[npm-image]: https://img.shields.io/npm/v/js-ml-lib.svg?style=flat-square
-[npm-url]: https://www.npmjs.com/package/js-ml-lib
+<p align="center">
+  <img src="https://img.shields.io/npm/v/js-ml-lib.svg?style=flat-square" alt="NPM version" />
+  <img src="https://coveralls.io/repos/github/JuiHsuanLee0303/js-ml-lib/badge.svg?branch=main" alt="Coverage Status" />
+  <img src="https://img.shields.io/github/commit-activity/m/juihsuanlee0303/js-ml-lib" alt="Commit Activity" />
+</p>
 
 ## Introduction
 
