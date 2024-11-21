@@ -14,6 +14,7 @@ export class SGDRegressor implements ModelInterface {
   constructor(learningRate: number = 0.01, epochs: number = 1000) {
     this.learningRate = learningRate;
     this.epochs = epochs;
+    this.weights = [];
   }
 
   /**
@@ -33,8 +34,11 @@ export class SGDRegressor implements ModelInterface {
     const nSamples = X.length;
     const nFeatures = X[0].length;
 
-    // Initialize weights (including bias term)
-    this.weights = Array(nFeatures + 1).fill(0);
+    // Initialize weights (including bias term) with small random values
+    this.weights = Array.from(
+      { length: nFeatures + 1 },
+      () => Math.random() * 0.01
+    );
 
     for (let epoch = 0; epoch < this.epochs; epoch++) {
       for (let i = 0; i < nSamples; i++) {

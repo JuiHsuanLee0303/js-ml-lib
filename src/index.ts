@@ -38,11 +38,14 @@ export function createPipelineAndTrain(
   testSize: number = 0.2,
   modelType: "linear" | "sgd" = "linear",
   preprocess: "standard" | "minmax" = "standard",
-  randomSeed?: number
+  randomSeed: number = 42
 ): PipelineResult {
   // Input validation
   if (!Array.isArray(X) || !Array.isArray(y)) {
     throw new Error("Input data must be arrays");
+  }
+  if (X.length === 0 || y.length === 0) {
+    throw new Error("Input data cannot be empty");
   }
   if (
     !X.every(
@@ -56,16 +59,8 @@ export function createPipelineAndTrain(
   }
 
   // Split data
-  const { train: X_train, test: X_test } = trainTestSplit(
-    X,
-    testSize,
-    randomSeed
-  );
-  const { train: y_train, test: y_test } = trainTestSplit(
-    y,
-    testSize,
-    randomSeed
-  );
+  const [{ train: X_train, test: X_test }, { train: y_train, test: y_test }] =
+    trainTestSplit(testSize, randomSeed, X, y);
 
   // Preprocess data
   const scaler =
