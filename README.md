@@ -2,6 +2,7 @@
 
 <p align="center">
   <img src="https://img.shields.io/npm/v/js-ml-lib.svg?style=flat-square" alt="NPM version" />
+  <img src="https://img.shields.io/npm/dw/js-ml-lib" alt="NPM Downloads" />
   <img src="https://coveralls.io/repos/github/JuiHsuanLee0303/js-ml-lib/badge.svg?branch=main" alt="Coverage Status" />
   <img src="https://img.shields.io/github/commit-activity/m/juihsuanlee0303/js-ml-lib" alt="Commit Activity" />
 </p>
@@ -14,6 +15,7 @@
 
 - **Models**:
   - **Linear Regression Model**: A simple and efficient implementation of the linear regression algorithm for training and prediction.
+  - **SGDRegressor**: A simple and efficient implementation of the stochastic gradient descent regression algorithm for training and prediction.
 - **Data Preprocessing**:
   - **Standardization (`StandardScaler`)**: Scales data to have a mean of 0 and a variance of 1.
   - **Normalization (`MinMaxScaler`)**: Scales data to fit within a specified range, such as `[0, 1]`.
@@ -57,7 +59,27 @@ const predictions = model.predict([[5], [6]]);
 console.log(predictions); // Output: [10, 12]
 ```
 
-#### 2. Data Preprocessing
+##### SGDRegressor
+
+The `SGDRegressor` class allows you to train a model on a dataset and make predictions using the stochastic gradient descent regression algorithm. Below is a simple example:
+
+```typescript
+import { SGDRegressor } from "js-ml-lib";
+
+// Training data
+const X = [[1], [2], [3], [4]];
+const y = [2, 4, 6, 8];
+
+// Initialize and train the model
+const model = new SGDRegressor();
+model.fit(X, y);
+
+// Make predictions
+const predictions = model.predict([[5], [6]]);
+console.log(predictions); // Output: [10, 12]
+```
+
+#### Data Preprocessing
 
 ##### Standardization
 
@@ -100,7 +122,7 @@ const X_scaled = scaler.fitTransform(X);
 console.log(X_scaled);
 ```
 
-#### 3. Dataset Splitting
+#### Dataset Splitting
 
 Easily split data into training and testing sets using `trainTestSplit`.
 
