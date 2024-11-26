@@ -3,3 +3,4 @@ test.ts
 test.js
 .vscode
 dist
+coverage

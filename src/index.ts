@@ -1,12 +1,13 @@
 // Core exports
 export { LinearRegression } from "./models/LinearRegression";
+export { SGDRegressor } from "./models/SGDRegressor";
 export { StandardScaler } from "./preprocessing/StandardScaler";
 export { MinMaxScaler } from "./preprocessing/MinMaxScaler";
 export { trainTestSplit } from "./validation/trainTestSplit";
 
 // Types
 export interface PipelineResult {
-  model: LinearRegression;
+  model: LinearRegression | SGDRegressor;
   predictions: number[];
   trueValues: number[];
   scaler?: StandardScaler | MinMaxScaler;
@@ -22,6 +23,7 @@ import { LinearRegression } from "./models/LinearRegression";
 import { StandardScaler } from "./preprocessing/StandardScaler";
 import { MinMaxScaler } from "./preprocessing/MinMaxScaler";
 import { trainTestSplit } from "./validation/trainTestSplit";
+import { SGDRegressor } from "./models/SGDRegressor";
 
 /**
  * Creates and trains a machine learning pipeline with data preprocessing and model training
@@ -34,12 +36,16 @@ export function createPipelineAndTrain(
   X: Dataset,
   y: number[],
   testSize: number = 0.2,
+  modelType: "linear" | "sgd" = "linear",
   preprocess: "standard" | "minmax" = "standard",
-  randomSeed?: number
+  randomSeed: number = 42
 ): PipelineResult {
   // Input validation
   if (!Array.isArray(X) || !Array.isArray(y)) {
     throw new Error("Input data must be arrays");
+  }
+  if (X.length === 0 || y.length === 0) {
+    throw new Error("Input data cannot be empty");
   }
   if (
     !X.every(
@@ -53,16 +59,8 @@ export function createPipelineAndTrain(
   }
 
   // Split data
-  const { train: X_train, test: X_test } = trainTestSplit(
-    X,
-    testSize,
-    randomSeed
-  );
-  const { train: y_train, test: y_test } = trainTestSplit(
-    y,
-    testSize,
-    randomSeed
-  );
+  const [{ train: X_train, test: X_test }, { train: y_train, test: y_test }] =
+    trainTestSplit(testSize, randomSeed, X, y);
 
   // Preprocess data
   const scaler =
@@ -78,7 +76,8 @@ export function createPipelineAndTrain(
   }
 
   // Train model
-  const model = new LinearRegression();
+  const model =
+    modelType === "linear" ? new LinearRegression() : new SGDRegressor();
   model.fit(X_train_scaled, y_train);
 
   // Generate predictions
