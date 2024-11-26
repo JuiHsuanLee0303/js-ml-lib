@@ -1,5 +1,5 @@
 import { ModelInterface } from "../types";
-import { DataValidationError } from "../exceptions";
+import { DataValidationError, SGDRegressorError } from "../exceptions";
 
 /**
  * Stochastic Gradient Descent Regressor
@@ -10,11 +10,16 @@ export class SGDRegressor implements ModelInterface {
   private weights: number[] = [];
   private learningRate: number;
   private epochs: number;
-
-  constructor(learningRate: number = 0.01, epochs: number = 1000) {
+  private lossFunction: string;
+  constructor(
+    learningRate: number = 0.01,
+    epochs: number = 1000,
+    lossFunction: string = "mse"
+  ) {
     this.learningRate = learningRate;
     this.epochs = epochs;
     this.weights = [];
+    this.lossFunction = lossFunction;
   }
 
   /**
@@ -51,9 +56,19 @@ export class SGDRegressor implements ModelInterface {
         // Calculate the error
         const error = prediction - yi;
 
-        // Update weights using gradient descent
-        for (let j = 0; j < this.weights.length; j++) {
-          this.weights[j] -= this.learningRate * error * xi[j];
+        if (this.lossFunction === "mse") {
+          // Update weights using gradient descent for MSE
+          for (let j = 0; j < this.weights.length; j++) {
+            this.weights[j] -= this.learningRate * error * xi[j];
+          }
+        } else if (this.lossFunction === "mae") {
+          // Update weights using gradient descent for MAE
+          const sign = error >= 0 ? 1 : -1;
+          for (let j = 0; j < this.weights.length; j++) {
+            this.weights[j] -= this.learningRate * sign * xi[j];
+          }
+        } else {
+          throw new SGDRegressorError("Invalid loss function");
         }
       }
     }

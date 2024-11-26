@@ -18,6 +18,23 @@ describe("SGDRegressor", () => {
     ]);
     expect(predictions.map((p) => Math.round(p * 100) / 100)).toEqual([12, 14]);
   });
+  test("SGDRegressor with MAE loss function", () => {
+    const X = [
+      [1, 3],
+      [2, 2],
+      [3, 4],
+      [4, 5],
+      [5, 6],
+    ];
+    const y = [2, 4, 6, 8, 10];
+    const model = new SGDRegressor(0.003, 1000, "mae");
+    model.fit(X, y);
+    const predictions = model.predict([
+      [6, 7],
+      [7, 8],
+    ]);
+    expect(predictions.map((p) => Math.round(p))).toEqual([12, 14]);
+  });
   test("SGDRegressor score", () => {
     const X = [
       [1, 3],

@@ -1,10 +1,3 @@
-export class MLError extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = "MLError";
-  }
-}
-
 export class DataValidationError extends Error {
   constructor(message: string) {
     super(message);
@@ -12,13 +5,7 @@ export class DataValidationError extends Error {
   }
 }
 
-export class SVDError extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = "SVDError";
-  }
-}
-
+// Represents errors in the linear regression model
 export class LinearRegressionError extends Error {
   constructor(message: string) {
     super(message);
@@ -26,6 +13,15 @@ export class LinearRegressionError extends Error {
   }
 }
 
+// Represents errors in the SGDRegressor model
+export class SGDRegressorError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "SGDRegressorError";
+  }
+}
+
+// Represents errors in the logistic regression model
 export class LogisticRegressionError extends Error {
   constructor(message: string) {
     super(message);

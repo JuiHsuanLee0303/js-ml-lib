@@ -1,5 +1,6 @@
 import * as math from "mathjs";
 import { ScalerInterface } from "../types";
+import { DataValidationError } from "../exceptions";
 
 export class MinMaxScaler implements ScalerInterface {
   private min: number[] | null = null;
@@ -11,12 +12,12 @@ export class MinMaxScaler implements ScalerInterface {
    */
   fit(X: number[][]): void {
     if (X.length === 0) {
-      throw new Error("Empty input data");
+      throw new DataValidationError("Empty input data");
     }
 
     const featureCount = X[0].length;
     if (!X.every((row) => row.length === featureCount)) {
-      throw new Error("Inconsistent number of features");
+      throw new DataValidationError("Inconsistent number of features");
     }
 
     // Calculate min and max for each feature
@@ -38,12 +39,12 @@ export class MinMaxScaler implements ScalerInterface {
    */
   fitTransform(X: number[][]): number[][] {
     if (X.length === 0) {
-      throw new Error("Empty input data");
+      throw new DataValidationError("Empty input data");
     }
 
     const featureCount = X[0].length;
     if (!X.every((row) => row.length === featureCount)) {
-      throw new Error("Inconsistent number of features");
+      throw new DataValidationError("Inconsistent number of features");
     }
 
     // Calculate min and max for each feature
@@ -67,15 +68,17 @@ export class MinMaxScaler implements ScalerInterface {
    */
   transform(X: number[][]): number[][] {
     if (!this.min || !this.max) {
-      throw new Error("Scaler not fitted yet");
+      throw new DataValidationError("Scaler not fitted yet");
     }
 
     if (X.length === 0) {
-      throw new Error("Empty input data");
+      throw new DataValidationError("Empty input data");
     }
 
     if (!X.every((row) => row.length === this.min!.length)) {
-      throw new Error("Number of features must match training data");
+      throw new DataValidationError(
+        "Number of features must match training data"
+      );
     }
 
     return X.map((row) =>
